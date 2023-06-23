@@ -27,7 +27,7 @@ def subprocess_get_lines(args, fail_okay=False):
 #del os.environ['LD_PRELOAD'] # otherwise fakeroot will interfere
 ldd_output = subprocess_get_lines(['ldd'] + sys.argv[1:])
 regex = re.compile(r' => (.*) \(0x[0-9a-f]+\)$')
-libs = set(match.group(1) for match in map(regex.search, ldd_output) if match)
+libs = {match.group(1) for match in map(regex.search, ldd_output) if match}
 
 # Figure out which packages own them
 deps = set(subprocess_get_lines(
